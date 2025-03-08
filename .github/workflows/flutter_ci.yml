@@ -16,6 +16,8 @@ jobs:
       - name: Read FVM config
         id: fvm_config
         uses: kuhnroyal/flutter-fvm-config-action@v1
+        with:
+          path: .fvmrc
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
