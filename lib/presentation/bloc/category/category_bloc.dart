@@ -48,6 +48,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   /// Handle AddCategory event
   Future<void> _onAddCategory(
       AddCategory event, Emitter<CategoryState> emit) async {
+    emit(const CategoryLoading());
     try {
       await _addCategoryUseCase(event.category);
       emit(const CategoryOperationSuccess('Category added successfully'));
@@ -60,6 +61,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   /// Handle UpdateCategory event
   Future<void> _onUpdateCategory(
       UpdateCategory event, Emitter<CategoryState> emit) async {
+    emit(const CategoryLoading());
     try {
       await _updateCategoryUseCase(event.category);
       emit(const CategoryOperationSuccess('Category updated successfully'));
@@ -72,6 +74,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   /// Handle DeleteCategory event
   Future<void> _onDeleteCategory(
       DeleteCategory event, Emitter<CategoryState> emit) async {
+    emit(const CategoryLoading());
     try {
       await _deleteCategoryUseCase(event.id);
       emit(const CategoryOperationSuccess('Category deleted successfully'));

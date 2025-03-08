@@ -101,6 +101,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   /// Handle AddTask event
   Future<void> _onAddTask(AddTask event, Emitter<TaskState> emit) async {
+    emit(const TaskLoading());
     try {
       await _addTaskUseCase(event.task);
       emit(const TaskOperationSuccess('Task added successfully'));
@@ -127,6 +128,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   /// Handle UpdateTask event
   Future<void> _onUpdateTask(UpdateTask event, Emitter<TaskState> emit) async {
+    emit(const TaskLoading());
     try {
       await _updateTaskUseCase(event.task);
       emit(const TaskOperationSuccess('Task updated successfully'));
@@ -153,6 +155,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   /// Handle DeleteTask event
   Future<void> _onDeleteTask(DeleteTask event, Emitter<TaskState> emit) async {
+    emit(const TaskLoading());
     try {
       await _deleteTaskUseCase(event.id);
       emit(const TaskOperationSuccess('Task deleted successfully'));
