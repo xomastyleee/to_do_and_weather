@@ -1,6 +1,79 @@
 # To-Do & Weather App
 
-A task management and weather display application developed using Flutter and Clean Architecture principles.
+[![Flutter CI](https://github.com/[username]/to_do_and_weather/actions/workflows/flutter_ci.yml/badge.svg)](https://github.com/[username]/to_do_and_weather/actions/workflows/flutter_ci.yml)
+[![codecov](https://codecov.io/gh/[username]/to_do_and_weather/branch/main/graph/badge.svg)](https://codecov.io/gh/[username]/to_do_and_weather)
+
+A Flutter application that combines a To-Do list with weather information using the OpenWeatherMap One Call API 3.0.
+
+## Features
+
+- Display current weather using OpenWeatherMap One Call API 3.0
+- Manage tasks with categories
+- Filter tasks by category and completion status
+- Beautiful and modern UI with Material Design
+
+## Getting Started
+
+### Prerequisites
+
+- [FVM (Flutter Version Management)](https://fvm.app)
+- OpenWeatherMap API key
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/[username]/to_do_and_weather.git
+cd to_do_and_weather
+```
+
+2. Install the correct Flutter version using FVM:
+```bash
+fvm install
+fvm use
+```
+
+3. Install dependencies:
+```bash
+fvm flutter pub get
+```
+
+4. Create a `.env` file in the root directory and add your OpenWeatherMap API key:
+```
+OPENWEATHERMAP_API_KEY=your_api_key_here
+```
+
+5. (Optional) Update default coordinates in `lib/core/constants/app_constants.dart` for your location. Default is set to Kyiv (50.4501, 30.5234).
+
+6. Run the app:
+```bash
+fvm flutter run
+```
+
+## Running Tests
+
+To run all tests with coverage:
+```bash
+fvm flutter test --coverage
+```
+
+To view the coverage report:
+```bash
+genhtml coverage/lcov.info -o coverage/html
+open coverage/html/index.html
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Features
 
