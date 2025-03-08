@@ -13,16 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Read FVM config
-        id: fvm_config
-        uses: kuhnroyal/flutter-fvm-config-action@v1
-        with:
-          path: .fvmrc
+      - name: Read Flutter version
+        id: flutter_version
+        run: echo "version=$(jq -r .flutter .fvmrc)" >> $GITHUB_OUTPUT
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ steps.fvm_config.outputs.FLUTTER_VERSION }}
+          flutter-version: ${{ steps.flutter_version.outputs.version }}
           channel: 'stable'
           cache: true
 
