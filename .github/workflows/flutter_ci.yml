@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: prod
 
     steps:
       - uses: actions/checkout@v3
@@ -24,14 +25,19 @@ jobs:
           channel: 'stable'
           cache: true
 
+    - name: Create secret files
+      run: |
+        echo -n "${{ secrets.ENV_CONFIG }}" | base64 --decode > .env
+      shell: bash
+
       - name: Install dependencies
         run: flutter pub get
 
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
-      # - name: Analyze project source
-      #   run: flutter analyze
+      - name: Analyze project source
+        run: flutter analyze
 
       - name: Run tests
         run: flutter test --coverage
