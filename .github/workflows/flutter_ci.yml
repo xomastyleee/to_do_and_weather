@@ -25,10 +25,10 @@ jobs:
           channel: 'stable'
           cache: true
 
-    - name: Create secret files
-      run: |
-        echo -n "${{ secrets.ENV_CONFIG }}" | base64 --decode > .env
-      shell: bash
+      - name: Create secret files
+        run: |
+          echo -n "${{ secrets.ENV_CONFIG }}" | base64 --decode > .env
+        shell: bash
 
       - name: Install dependencies
         run: flutter pub get
