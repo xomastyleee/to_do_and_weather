@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/entities/task.dart';
 import '../../../domain/usecases/task_usecases.dart';
 import 'task_event.dart';
 import 'task_state.dart';
@@ -7,7 +6,6 @@ import 'task_state.dart';
 /// BLoC for managing task state
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final GetTasksUseCase _getTasksUseCase;
-  final GetTaskByIdUseCase _getTaskByIdUseCase;
   final AddTaskUseCase _addTaskUseCase;
   final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
@@ -25,7 +23,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     required GetCompletedTasksUseCase getCompletedTasksUseCase,
     required GetIncompleteTasksUseCase getIncompleteTasksUseCase,
   })  : _getTasksUseCase = getTasksUseCase,
-        _getTaskByIdUseCase = getTaskByIdUseCase,
         _addTaskUseCase = addTaskUseCase,
         _updateTaskUseCase = updateTaskUseCase,
         _deleteTaskUseCase = deleteTaskUseCase,

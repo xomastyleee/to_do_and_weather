@@ -6,7 +6,6 @@ import 'category_state.dart';
 /// BLoC for managing category state
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final GetCategoriesUseCase _getCategoriesUseCase;
-  final GetCategoryByIdUseCase _getCategoryByIdUseCase;
   final AddCategoryUseCase _addCategoryUseCase;
   final UpdateCategoryUseCase _updateCategoryUseCase;
   final DeleteCategoryUseCase _deleteCategoryUseCase;
@@ -20,7 +19,6 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     required DeleteCategoryUseCase deleteCategoryUseCase,
     required InitDefaultCategoriesUseCase initDefaultCategoriesUseCase,
   })  : _getCategoriesUseCase = getCategoriesUseCase,
-        _getCategoryByIdUseCase = getCategoryByIdUseCase,
         _addCategoryUseCase = addCategoryUseCase,
         _updateCategoryUseCase = updateCategoryUseCase,
         _deleteCategoryUseCase = deleteCategoryUseCase,

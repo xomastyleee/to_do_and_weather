@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../core/constants/app_constants.dart';
 import '../../domain/entities/category.dart';
 import '../../domain/entities/task.dart';
 import '../bloc/category/category_bloc.dart';
@@ -22,7 +21,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? _selectedCategoryId;
-  bool? _selectedCompletionStatus;
 
   @override
   void initState() {
@@ -306,21 +304,12 @@ class _HomePageState extends State<HomePage> {
 
     switch (value) {
       case 'all':
-        setState(() {
-          _selectedCompletionStatus = null;
-        });
         context.read<TaskBloc>().add(const LoadTasks());
         break;
       case 'completed':
-        setState(() {
-          _selectedCompletionStatus = true;
-        });
         context.read<TaskBloc>().add(const LoadCompletedTasks());
         break;
       case 'incomplete':
-        setState(() {
-          _selectedCompletionStatus = false;
-        });
         context.read<TaskBloc>().add(const LoadIncompleteTasks());
         break;
     }
