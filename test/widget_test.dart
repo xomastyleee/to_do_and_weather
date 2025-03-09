@@ -12,18 +12,21 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:to_do_and_weather/data/datasources/category_local_data_source.dart';
 import 'package:to_do_and_weather/data/datasources/task_local_data_source.dart';
 import 'package:to_do_and_weather/data/datasources/weather_remote_data_source.dart';
 import 'package:to_do_and_weather/data/repositories/category_repository_impl.dart';
 import 'package:to_do_and_weather/data/repositories/task_repository_impl.dart';
 import 'package:to_do_and_weather/data/repositories/weather_repository_impl.dart';
+import 'package:to_do_and_weather/domain/entities/category.dart';
 import 'package:to_do_and_weather/domain/usecases/category_usecases.dart';
 import 'package:to_do_and_weather/domain/usecases/task_usecases.dart';
 import 'package:to_do_and_weather/domain/usecases/weather_usecases.dart';
 import 'package:to_do_and_weather/presentation/bloc/category/category_bloc.dart';
+import 'package:to_do_and_weather/presentation/bloc/category/category_state.dart';
 import 'package:to_do_and_weather/presentation/bloc/task/task_bloc.dart';
+import 'package:to_do_and_weather/presentation/bloc/task/task_state.dart';
 import 'package:to_do_and_weather/presentation/bloc/weather/weather_bloc.dart';
 import 'package:to_do_and_weather/presentation/pages/home_page.dart';
 import 'package:to_do_and_weather/core/utils/color_adapter.dart';
@@ -42,6 +45,12 @@ void main() {
     // Initialize Hive for testing
     Hive.init('./test/hive_testing_path');
     Hive.registerAdapter(ColorAdapter());
+
+    // Mock environment variables
+    dotenv.testLoad(fileInput: '''
+      WEATHER_API_KEY=test_api_key
+      WEATHER_BASE_URL=https://api.openweathermap.org/data/2.5
+    ''');
   });
 
   setUp(() async {
@@ -93,6 +102,13 @@ void main() {
           200,
         ));
 
+    // Emit initial states
+    taskBloc.emit(const TaskLoaded(tasks: []));
+    categoryBloc.emit(const CategoryLoaded([
+      Category(id: '1', name: 'Work', color: Colors.blue),
+      Category(id: '2', name: 'Personal', color: Colors.green),
+    ]));
+
     await tester.pumpWidget(
       MultiBlocProvider(
         providers: [
@@ -106,21 +122,27 @@ void main() {
       ),
     );
 
-    // Wait for initial data loading
+    // Wait for widget to build
     await tester.pump();
 
     // Check if main UI elements are displayed
     expect(find.text('To-Do & Weather'), findsOneWidget);
     expect(find.byType(FloatingActionButton), findsOneWidget);
-
-    // Check if filter button is present
+    expect(find.byIcon(Icons.add), findsOneWidget);
     expect(find.byIcon(Icons.filter_list), findsOneWidget);
 
-    // Tap the filter button to show the menu
-    await tester.tap(find.byIcon(Icons.filter_list));
-    await tester.pump();
+    // Check if category filter is present
+    expect(find.text('All'), findsOneWidget);
+    expect(find.text('Work'), findsOneWidget);
+    expect(find.text('Personal'), findsOneWidget);
 
-    // Check if filter options are present in the menu
+    // Check if empty state is shown when no tasks are present
+    expect(find.text('No tasks found. Add some tasks!'), findsOneWidget);
+
+    // Tap filter button and check menu items
+    await tester.tap(find.byIcon(Icons.filter_list));
+    await tester.pumpAndSettle();
+
     expect(find.text('All Tasks'), findsOneWidget);
     expect(find.text('Completed Tasks'), findsOneWidget);
     expect(find.text('Incomplete Tasks'), findsOneWidget);
